@@ -1,3 +1,26 @@
+#########################################
+## ENV VARIABLES
+#########################################
+import os
+
+if "POSTGRES_DB" not in os.environ:
+    os.environ['POSTGRES_DB'] = 'taiga'
+
+if "POSTGRES_USER" not in os.environ:
+    os.environ['POSTGRES_USER'] = 'taiga'
+
+if "POSTGRES_PASSWORD" not in os.environ:
+    os.environ['POSTGRES_PASSWORD'] = 'changeme'
+
+if "POSTGRES_HOST" not in os.environ:
+    os.environ['POSTGRES_HOST'] = 'database'
+
+if "POSTGRES_PORT" not in os.environ:
+    os.environ['POSTGRES_PORT'] = '5432'
+
+if "SECRET_KEY" not in os.environ:
+    os.environ['SECRET_KEY'] = ''
+
 # For the complete list of possible settings and their documentation, see
 # https://docs.djangoproject.com/en/1.11/ref/settings/ and
 # https://github.com/taigaio/taiga-back/tree/stable/settings. Documentation for
@@ -20,13 +43,14 @@
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'taiga',
-        'USER': 'taiga',
-        'PASSWORD': 'changeme',
-        'HOST': 'database',
-        'PORT': '5432',
+        'NAME': os.environ['POSTGRES_DB'],
+        'USER': os.environ['POSTGRES_USER'],
+        'PASSWORD': os.environ['POSTGRES_PASSWORD'],
+        'HOST': os.environ['POSTGRES_HOST'],
+        'PORT': int(os.environ['POSTGRES_PORT']),
     }
 }
+
 
 # The absolute url is mandatory because attachments
 # urls depends on it. In production should be set
@@ -40,7 +64,7 @@ DATABASES = {
 # from django.core.management.utils import get_random_secret_key
 # print(get_random_secret_key())
 # EOF
-#SECRET_KEY = ''
+SECRET_KEY = os.environ['SECRET_KEY']
 
 #SITES = {
 #    "api": {
